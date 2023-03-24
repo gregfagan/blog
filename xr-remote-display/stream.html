@@ -1,0 +1,61 @@
+<html>
+  <head>
+    <title>Stream</title>
+  </head>
+  <body>
+    <button>Stream</button>
+    <script type="module">
+      const ws = import.meta.hot;
+      /** @type {MediaStream} */
+      let stream;
+      /** @type {RTCPeerConnection} */
+      let pc;
+      async function start() {
+        if (!stream) {
+          stream = await navigator.mediaDevices.getDisplayMedia({
+            video: { frameRate: 30 },
+          });
+        }
+
+        pc = new RTCPeerConnection();
+        const codecs = RTCRtpReceiver.getCapabilities("video").codecs;
+        console.log("codecs", codecs);
+
+        stream.getTracks().forEach((track) => pc.addTrack(track, stream));
+        for (const tcvr of pc.getTransceivers()) {
+          // tcvr.setCodecPreferences(
+          //   codecs.filter((c) => c.mimeType === "video/H264")
+          // );
+        }
+        const offer = await pc.createOffer();
+        pc.setLocalDescription(offer);
+
+        pc.addEventListener("icecandidate", (e) => {
+          console.log("ice candidate", e);
+          if (e.candidate) ws.send("rtc:ice", JSON.stringify(e.candidate));
+        });
+
+        ws.send("rtc:offer", JSON.stringify(offer));
+
+        console.log("started streaming session, no");
+      }
+
+      ws?.on("rtc:ice", async (data) => {
+        const ice = JSON.parse(data);
+        console.log("received ice candidate from peer", ice);
+        pc.addIceCandidate(new RTCIceCandidate(ice));
+      });
+
+      ws?.on("rtc:answer", async (data) => {
+        const answer = JSON.parse(data);
+        console.log("received answer", answer);
+        await pc.setRemoteDescription(answer);
+        console.log("connected to peer");
+      });
+
+      ws?.on("rtc:connect", start);
+
+      document.querySelector("button").addEventListener("click", start);
+    </script>
+  </body>
+</html>
