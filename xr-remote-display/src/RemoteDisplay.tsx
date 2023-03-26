@@ -4,11 +4,17 @@ import { useEffect, useMemo } from "react";
 import { BackSide, WebGLRenderer } from "three";
 import { video } from "./connectRemoteDisplay";
 
-const centralAngle = Math.PI / 2.7;
-const radius = 1.0;
-const transform = new XRRigidTransform({ y: 1.015 });
+const defaultTransform = new XRRigidTransform({ y: 1.015 });
 
-export function RemoteDisplay() {
+export function RemoteDisplay({
+  centralAngle = Math.PI / 2.7,
+  radius = 1.0,
+  transform = defaultTransform,
+}: {
+  centralAngle?: number;
+  radius?: number;
+  transform?: XRRigidTransform;
+}) {
   const renderer = useThree((s) => s.gl);
   const isPresenting = useXR((s) => s.isPresenting);
   const layer = useMemo(
@@ -59,12 +65,7 @@ function createLayer(renderer: WebGLRenderer) {
   const space = renderer.xr.getReferenceSpace();
   if (!space) throw Error("no ref space");
   const xrMediaFactory = new XRMediaBinding(session);
-  const layer = xrMediaFactory.createCylinderLayer(video, {
-    space,
-    radius,
-    centralAngle,
-    transform,
-  });
+  const layer = xrMediaFactory.createCylinderLayer(video, { space });
   session.updateRenderState({ layers: [layer, renderer.xr.getBaseLayer()] });
   return layer;
 }
