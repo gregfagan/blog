@@ -1,7 +1,5 @@
 import { Canvas } from "@react-three/fiber";
-import { XRButton, Controllers, XR, RayGrab, useXR } from "@react-three/xr";
-import { Component, ErrorInfo, ReactNode } from "react";
-import { WebGLRenderer } from "three";
+import { XRButton, Controllers, XR, RayGrab } from "@react-three/xr";
 import { Holodeck } from "./Holodeck";
 import { RemoteDisplay } from "./RemoteDisplay";
 
@@ -19,40 +17,18 @@ export default function App() {
           zIndex: 1,
         }}
       />
-      <ErrorBoundary>
-        <Canvas
-          // linear
-          camera={{ position: [0, 1.015, 3.7], rotation: [0, 0, 0], fov: 11 }}
-        >
-          <XR>
-            <ErrorBoundary>
-              {import.meta.env.DEV && <RemoteDisplay />}
-              <KeyboardPassthrough />
-              <Holodeck />
-              {lights}
-              {cube}
-              <Controllers />
-            </ErrorBoundary>
-          </XR>
-        </Canvas>
-      </ErrorBoundary>
+      <Canvas camera={{ position: [0, 1.015, 0], rotation: [0, 0, 0] }}>
+        <XR>
+          {import.meta.env.DEV && <RemoteDisplay />}
+          <Holodeck />
+          {lights}
+          {cube}
+          <Controllers />
+        </XR>
+      </Canvas>
     </>
   );
 }
-
-const KeyboardPassthrough = () => {
-  const isPresenting = useXR((s) => s.isPresenting);
-  return !isPresenting ? null : (
-    <mesh
-      position={[0, 0.65, -0.3]}
-      rotation={[-Math.PI / 2, 0, 0]}
-      scale={[1.5, 0.75, 1]}
-    >
-      <planeGeometry />
-      <meshBasicMaterial colorWrite={false} />
-    </mesh>
-  );
-};
 
 const lights = (
   <>
@@ -74,15 +50,3 @@ const cube = (
     </mesh>
   </RayGrab>
 );
-
-type Props = { renderer?: WebGLRenderer; children: ReactNode };
-type State = { error?: Error };
-class ErrorBoundary extends Component<Props, State> {
-  state: State = {};
-  componentDidCatch(error: Error, _errorInfo: ErrorInfo): void {
-    this.setState({ error });
-  }
-  render() {
-    return this.state.error ? null : <>{this.props.children}</>;
-  }
-}

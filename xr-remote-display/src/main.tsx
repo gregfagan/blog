@@ -4,7 +4,7 @@ import App from "./App";
 import "./index.css";
 
 if (import.meta.env.DEV) {
-  import("./connectRemoteDisplay");
+  import("./connectRemoteDisplay").then(({ connect }) => connect());
 }
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(

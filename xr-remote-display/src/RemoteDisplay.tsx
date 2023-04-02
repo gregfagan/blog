@@ -27,37 +27,38 @@ export function RemoteDisplay({
     () => (isPresenting ? createLayer(renderer) : null),
     [renderer, isPresenting]
   );
-
-  const [videoAspectRatio, setVideoAspectRatio] = useState(1);
+  const [aspectRatio, setAspectRatio] = useState(16 / 9);
   useEffect(() => {
-    function onPlay() {
-      console.log("video play");
-      setVideoAspectRatio(video.videoWidth / video.videoHeight);
-    }
-    video.addEventListener("play", onPlay);
-    return () => video.removeEventListener("play", onPlay);
+    const onMetadata = () =>
+      setAspectRatio(video.videoWidth / video.videoHeight);
+    video.addEventListener("loadedmetadata", onMetadata);
+    return () => video.removeEventListener("loadedmetadata", onMetadata);
   }, []);
 
+  // update layer transform
   useEffect(() => {
-    if (layer && layer.centralAngle !== centralAngle) {
-      layer.centralAngle = centralAngle;
-    }
-  }, [layer, centralAngle]);
+    if (!layer) return;
+    layer.centralAngle = centralAngle;
+    layer.radius = radius;
+    layer.transform = transform;
+  }, [layer, centralAngle, radius, transform]);
 
-  useEffect(() => {
-    if (layer && layer.radius !== radius) {
-      layer.radius = radius;
-    }
-  }, [layer, radius]);
-
-  useEffect(() => {
-    if (layer && layer.transform !== transform) {
-      layer.transform = transform;
-    }
-  }, [layer, transform]);
-
-  const aspectRatio =
-    layer?.aspectRatio ?? video.videoWidth / video.videoHeight;
+  // If we have an active layer, render a material which will "punch a hole" in
+  // our rendering by writing to the depth buffer but not color.
+  // Without an active layer, render the remote display as a video texture.
+  const material = layer ? (
+    <meshBasicMaterial side={BackSide} colorWrite={false} />
+  ) : (
+    <meshBasicMaterial side={BackSide}>
+      <videoTexture
+        args={[video]}
+        attach="map"
+        offset={new Vector2(1, 0)}
+        wrapS={MirroredRepeatWrapping}
+        encoding={sRGBEncoding}
+      />
+    </meshBasicMaterial>
+  );
 
   return (
     <mesh position={[0, transform.position.y, 0]}>
@@ -73,17 +74,7 @@ export function RemoteDisplay({
           centralAngle, // theta length
         ]}
       />
-      <meshBasicMaterial side={BackSide} colorWrite={!layer}>
-        {!layer && (
-          <videoTexture
-            args={[video]}
-            attach="map"
-            offset={new Vector2(1, 0)}
-            wrapS={MirroredRepeatWrapping}
-            encoding={sRGBEncoding}
-          />
-        )}
-      </meshBasicMaterial>
+      {material}
     </mesh>
   );
 }
