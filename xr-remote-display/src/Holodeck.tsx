@@ -12,9 +12,6 @@ export const Holodeck = memo(() => {
             vertexShader,
             fragmentShader,
             side: BackSide,
-            uniforms: {
-              size: { value: new Vector3(...size) },
-            },
           },
         ]}
       />
@@ -34,7 +31,6 @@ void main() {
 `;
 
 const fragmentShader = /* glsl */ `
-uniform vec3 size;
 varying vec3 vPosition;
 varying vec3 vNormal;
 void main() {

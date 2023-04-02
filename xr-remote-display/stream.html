@@ -27,6 +27,10 @@
         }
 
         stream.getTracks().forEach((track) => pc.addTrack(track, stream));
+        stream.getVideoTracks()[0].addEventListener("ended", () => {
+          stream = null;
+          pc.close();
+        });
 
         const codecs = RTCRtpSender.getCapabilities("video").codecs;
         console.log("available codecs", codecs);

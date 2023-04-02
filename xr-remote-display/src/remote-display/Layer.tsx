@@ -1,6 +1,6 @@
 import { useThree } from "@react-three/fiber";
 import { useXR } from "@react-three/xr";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useSyncExternalStore } from "react";
 import {
   BackSide,
   MirroredRepeatWrapping,
@@ -24,20 +24,11 @@ export function RemoteDisplayLayer({
 }) {
   const renderer = useThree((s) => s.gl);
   const isPresenting = useXR((s) => s.isPresenting);
+  const isReady = useVideoIsReady(video);
   const layer = useMemo(
-    () => (isPresenting ? createLayer(video, renderer) : null),
-    [video, renderer, isPresenting]
+    () => (isReady && isPresenting ? createLayer(video, renderer) : null),
+    [video, renderer, isPresenting, isReady]
   );
-
-  const [videoAspectRatio, setVideoAspectRatio] = useState(1);
-  useEffect(() => {
-    function onPlay() {
-      console.log("video play");
-      setVideoAspectRatio(video.videoWidth / video.videoHeight);
-    }
-    video.addEventListener("play", onPlay);
-    return () => video.removeEventListener("play", onPlay);
-  }, []);
 
   useEffect(() => {
     if (layer && layer.centralAngle !== centralAngle) {
@@ -57,8 +48,7 @@ export function RemoteDisplayLayer({
     }
   }, [layer, transform]);
 
-  const aspectRatio =
-    layer?.aspectRatio ?? video.videoWidth / video.videoHeight;
+  const aspectRatio = isReady ? video.videoWidth / video.videoHeight : 16 / 9;
 
   return (
     <mesh position={[0, transform.position.y, 0]}>
@@ -74,8 +64,13 @@ export function RemoteDisplayLayer({
           centralAngle, // theta length
         ]}
       />
-      <meshBasicMaterial side={BackSide} colorWrite={!layer}>
-        {!layer && (
+      <meshBasicMaterial
+        // recreate material with or without videoTexture when needed
+        key={isReady.toString()}
+        side={BackSide}
+        colorWrite={!layer}
+      >
+        {!layer && isReady && (
           <videoTexture
             args={[video]}
             attach="map"
@@ -98,4 +93,33 @@ function createLayer(video: HTMLVideoElement, renderer: WebGLRenderer) {
   const layer = xrMediaFactory.createCylinderLayer(video, { space });
   session.updateRenderState({ layers: [layer, renderer.xr.getBaseLayer()] });
   return layer;
+}
+
+function useVideoIsReady(video: HTMLVideoElement) {
+  const getIsReady = useCallback(
+    () => video.readyState >= 2 /* HAVE_CURRENT_DATA */,
+    [video]
+  );
+  const subscribe = useCallback(
+    (onChange: () => void) => {
+      function checkReady(e: Event) {
+        console.log("is ready", e.type, getIsReady());
+        onChange();
+      }
+      video.addEventListener("loadeddata", checkReady);
+      video.addEventListener("error", checkReady);
+      video.addEventListener("abort", checkReady);
+      video.addEventListener("waiting", checkReady);
+      video.addEventListener("ended", checkReady);
+      return () => {
+        video.removeEventListener("loadeddata", checkReady);
+        video.removeEventListener("error", checkReady);
+        video.removeEventListener("abort", checkReady);
+        video.removeEventListener("waiting", checkReady);
+        video.removeEventListener("ended", checkReady);
+      };
+    },
+    [video, getIsReady]
+  );
+  return useSyncExternalStore(subscribe, getIsReady);
 }

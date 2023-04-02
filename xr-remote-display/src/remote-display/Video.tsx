@@ -4,21 +4,18 @@ import {
   memo,
   ReactNode,
   useEffect,
-  useState,
+  useRef,
 } from "react";
 import { subscribeToMediaStreams } from "./rtc";
-import { useForwardedRef } from "../useForwardedRef";
+import { useMergedRefs } from "../useMergedRefs";
 
 export const RemoteDisplayVideo = memo(
   forwardRef<HTMLVideoElement, { children?: ReactNode }>(
     ({ children }, forwardedRef) => {
-      const ref = useForwardedRef(forwardedRef);
-      // TODO: trigger downstream change when mediaStream changes
-      const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
+      const ref = useRef<HTMLVideoElement>(null);
 
       useEffect(() => {
         const unsubscribe = subscribeToMediaStreams((mediaStream) => {
-          // setMediaStream(mediaStream);
           if (!ref.current) return;
           ref.current.srcObject = mediaStream;
         });
@@ -27,8 +24,7 @@ export const RemoteDisplayVideo = memo(
 
       return (
         <video
-          // key={mediaStream?.id}
-          ref={ref}
+          ref={useMergedRefs(ref, forwardedRef)}
           style={style}
           muted
           autoPlay
