@@ -1,5 +1,5 @@
 import { Canvas } from "@react-three/fiber";
-import { XRButton, Controllers, XR, RayGrab } from "@react-three/xr";
+import { XRButton, Controllers, XR, RayGrab, useXR } from "@react-three/xr";
 import { Component, ErrorInfo, ReactNode } from "react";
 import { WebGLRenderer } from "three";
 import { Holodeck } from "./Holodeck";
@@ -8,7 +8,17 @@ import { RemoteDisplay } from "./RemoteDisplay";
 export default function App() {
   return (
     <>
-      <XRButton mode="AR" sessionInit={{ optionalFeatures: ["layers"] }} />
+      <XRButton
+        mode="AR"
+        sessionInit={{ optionalFeatures: ["layers"] }}
+        style={{
+          position: "absolute",
+          bottom: "10%",
+          left: "50%",
+          transform: "translateX(-50%)",
+          zIndex: 1,
+        }}
+      />
       <ErrorBoundary>
         <Canvas
           // linear
@@ -17,7 +27,7 @@ export default function App() {
           <XR>
             <ErrorBoundary>
               {import.meta.env.DEV && <RemoteDisplay />}
-              {keyboardPassthrough}
+              <KeyboardPassthrough />
               <Holodeck />
               {lights}
               {cube}
@@ -30,16 +40,19 @@ export default function App() {
   );
 }
 
-const keyboardPassthrough = (
-  <mesh
-    position={[0, 0.65, -0.3]}
-    rotation={[-Math.PI / 2, 0, 0]}
-    scale={[1.5, 0.75, 1]}
-  >
-    <planeGeometry />
-    <meshBasicMaterial colorWrite={false} />
-  </mesh>
-);
+const KeyboardPassthrough = () => {
+  const isPresenting = useXR((s) => s.isPresenting);
+  return !isPresenting ? null : (
+    <mesh
+      position={[0, 0.65, -0.3]}
+      rotation={[-Math.PI / 2, 0, 0]}
+      scale={[1.5, 0.75, 1]}
+    >
+      <planeGeometry />
+      <meshBasicMaterial colorWrite={false} />
+    </mesh>
+  );
+};
 
 const lights = (
   <>
