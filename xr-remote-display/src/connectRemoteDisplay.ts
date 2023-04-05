@@ -10,7 +10,7 @@ video.muted = true;
 video.autoplay = true;
 video.playsInline = true;
 video.style.zIndex = "-1";
-// video.style.visibility = "hidden";
+video.style.opacity = "0";
 document.body.appendChild(video);
 
 ws?.on("rtc:offer", async (data) => {

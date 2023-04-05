@@ -10,12 +10,15 @@ export default function App() {
     <>
       <XRButton mode="AR" sessionInit={{ optionalFeatures: ["layers"] }} />
       <ErrorBoundary>
-        <Canvas>
+        <Canvas
+          // linear
+          camera={{ position: [0, 1.015, 3.7], rotation: [0, 0, 0], fov: 11 }}
+        >
           <XR>
             <ErrorBoundary>
               {import.meta.env.DEV && <RemoteDisplay />}
               {keyboardPassthrough}
-              {/* <Holodeck /> */}
+              <Holodeck />
               {lights}
               {cube}
               <Controllers />
@@ -52,7 +55,7 @@ const lights = (
 
 const cube = (
   <RayGrab>
-    <mesh position={[0, 1.0, -0.9]} scale={0.05}>
+    <mesh position={[-0.75, 1.0, -0.9]} scale={0.05}>
       <boxGeometry />
       <meshLambertMaterial />
     </mesh>

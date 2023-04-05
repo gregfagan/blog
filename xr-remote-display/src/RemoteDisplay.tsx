@@ -1,14 +1,20 @@
 import { useThree } from "@react-three/fiber";
 import { useXR } from "@react-three/xr";
-import { useEffect, useMemo } from "react";
-import { BackSide, WebGLRenderer } from "three";
+import { useEffect, useMemo, useState } from "react";
+import {
+  BackSide,
+  MirroredRepeatWrapping,
+  Vector2,
+  WebGLRenderer,
+  sRGBEncoding,
+} from "three";
 import { video } from "./connectRemoteDisplay";
 
 const defaultTransform = new XRRigidTransform({ y: 1.015 });
 
 export function RemoteDisplay({
-  centralAngle = Math.PI / 2.7,
-  radius = 1.0,
+  centralAngle = Math.PI / 2.4,
+  radius = 1.2,
   transform = defaultTransform,
 }: {
   centralAngle?: number;
@@ -21,6 +27,16 @@ export function RemoteDisplay({
     () => (isPresenting ? createLayer(renderer) : null),
     [renderer, isPresenting]
   );
+
+  const [videoAspectRatio, setVideoAspectRatio] = useState(1);
+  useEffect(() => {
+    function onPlay() {
+      console.log("video play");
+      setVideoAspectRatio(video.videoWidth / video.videoHeight);
+    }
+    video.addEventListener("play", onPlay);
+    return () => video.removeEventListener("play", onPlay);
+  }, []);
 
   useEffect(() => {
     if (layer && layer.centralAngle !== centralAngle) {
@@ -40,13 +56,16 @@ export function RemoteDisplay({
     }
   }, [layer, transform]);
 
+  const aspectRatio =
+    layer?.aspectRatio ?? video.videoWidth / video.videoHeight;
+
   return (
-    <mesh position={[0, transform.position.y, 0]} visible={!!layer}>
+    <mesh position={[0, transform.position.y, 0]}>
       <cylinderGeometry
         args={[
           radius,
           radius,
-          (centralAngle * radius) / (layer?.aspectRatio ?? 1), // height
+          (centralAngle * radius) / aspectRatio, // height
           16, // segments
           1, // height segments
           true, // open ended
@@ -54,7 +73,17 @@ export function RemoteDisplay({
           centralAngle, // theta length
         ]}
       />
-      <meshBasicMaterial side={BackSide} colorWrite={false} />
+      <meshBasicMaterial side={BackSide} colorWrite={!layer}>
+        {!layer && (
+          <videoTexture
+            args={[video]}
+            attach="map"
+            offset={new Vector2(1, 0)}
+            wrapS={MirroredRepeatWrapping}
+            encoding={sRGBEncoding}
+          />
+        )}
+      </meshBasicMaterial>
     </mesh>
   );
 }

@@ -37,7 +37,7 @@
 
         ws.send("rtc:offer", JSON.stringify(offer));
 
-        console.log("started streaming session, no");
+        console.log("started streaming session");
       }
 
       ws?.on("rtc:ice", async (data) => {
