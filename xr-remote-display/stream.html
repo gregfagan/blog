@@ -11,38 +11,49 @@
       /** @type {RTCPeerConnection} */
       let pc;
       async function start() {
+        pc = new RTCPeerConnection();
+
         if (!stream) {
           stream = await navigator.mediaDevices.getDisplayMedia({
-            video: { frameRate: 30 },
+            video: { frameRate: 30, displaySurface: "monitor" },
           });
+          // const track = stream.getVideoTracks()[0];
+          // console.log(track.getCapabilities());
+          // console.log(track.getConstraints());
+          // console.log(track.getSettings());
+          // await track.applyConstraints({
+          // width: { min: 1920, ideal: 1920 },
+          // });
         }
-
-        pc = new RTCPeerConnection();
-        const codecs = RTCRtpReceiver.getCapabilities("video").codecs;
-        console.log("codecs", codecs);
 
         stream.getTracks().forEach((track) => pc.addTrack(track, stream));
-        for (const tcvr of pc.getTransceivers()) {
-          // tcvr.setCodecPreferences(
-          //   codecs.filter((c) => c.mimeType === "video/H264")
-          // );
-        }
+
+        const codecs = RTCRtpSender.getCapabilities("video").codecs;
+        console.log("available codecs", codecs);
+
+        // for (const tcvr of pc.getTransceivers()) {
+        //   tcvr.setCodecPreferences(
+        //     codecs.filter((c) => c.mimeType === "video/VP9")
+        //   );
+        // }
+
         const offer = await pc.createOffer();
         pc.setLocalDescription(offer);
 
         pc.addEventListener("icecandidate", (e) => {
-          console.log("ice candidate", e);
-          if (e.candidate) ws.send("rtc:ice", JSON.stringify(e.candidate));
+          if (e.candidate) {
+            console.log("sending ice candidate", e.candidate);
+            ws.send("rtc:ice", JSON.stringify(e.candidate));
+          }
         });
 
+        console.log("sending offer");
         ws.send("rtc:offer", JSON.stringify(offer));
-
-        console.log("started streaming session");
       }
 
       ws?.on("rtc:ice", async (data) => {
         const ice = JSON.parse(data);
-        console.log("received ice candidate from peer", ice);
+        console.log("received ice candidate", ice);
         pc.addIceCandidate(new RTCIceCandidate(ice));
       });
 

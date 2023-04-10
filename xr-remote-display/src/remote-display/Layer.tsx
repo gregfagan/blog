@@ -8,24 +8,25 @@ import {
   WebGLRenderer,
   sRGBEncoding,
 } from "three";
-import { video } from "./connectRemoteDisplay";
 
 const defaultTransform = new XRRigidTransform({ y: 1.015 });
 
-export function RemoteDisplay({
-  centralAngle = Math.PI / 2.4,
+export function RemoteDisplayLayer({
+  centralAngle = Math.PI / 2.3,
   radius = 1.2,
   transform = defaultTransform,
+  video,
 }: {
   centralAngle?: number;
   radius?: number;
   transform?: XRRigidTransform;
+  video: HTMLVideoElement;
 }) {
   const renderer = useThree((s) => s.gl);
   const isPresenting = useXR((s) => s.isPresenting);
   const layer = useMemo(
-    () => (isPresenting ? createLayer(renderer) : null),
-    [renderer, isPresenting]
+    () => (isPresenting ? createLayer(video, renderer) : null),
+    [video, renderer, isPresenting]
   );
 
   const [videoAspectRatio, setVideoAspectRatio] = useState(1);
@@ -88,7 +89,7 @@ export function RemoteDisplay({
   );
 }
 
-function createLayer(renderer: WebGLRenderer) {
+function createLayer(video: HTMLVideoElement, renderer: WebGLRenderer) {
   const session = renderer.xr.getSession();
   if (!session) throw Error("no session");
   const space = renderer.xr.getReferenceSpace();

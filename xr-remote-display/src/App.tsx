@@ -1,13 +1,18 @@
 import { Canvas } from "@react-three/fiber";
 import { XRButton, Controllers, XR, RayGrab, useXR } from "@react-three/xr";
-import { Component, ErrorInfo, ReactNode } from "react";
+import { Component, ErrorInfo, ReactNode, useState } from "react";
 import { WebGLRenderer } from "three";
 import { Holodeck } from "./Holodeck";
-import { RemoteDisplay } from "./RemoteDisplay";
+import { RemoteDisplayLayer, RemoteDisplayVideo } from "./remote-display";
 
 export default function App() {
+  const [remoteDisplayVideo, setRemoteDisplayVideo] =
+    useState<HTMLVideoElement | null>(null);
   return (
     <>
+      {import.meta.env.DEV && (
+        <RemoteDisplayVideo ref={setRemoteDisplayVideo} />
+      )}
       <XRButton
         mode="AR"
         sessionInit={{ optionalFeatures: ["layers"] }}
@@ -26,7 +31,9 @@ export default function App() {
         >
           <XR>
             <ErrorBoundary>
-              {import.meta.env.DEV && <RemoteDisplay />}
+              {import.meta.env.DEV && remoteDisplayVideo && (
+                <RemoteDisplayLayer video={remoteDisplayVideo} />
+              )}
               <KeyboardPassthrough />
               <Holodeck />
               {lights}

@@ -1,57 +1,51 @@
-import { memo, ReactNode, useEffect, useRef, useState } from "react";
-import { remoteDisplay } from "./events";
+import {
+  CSSProperties,
+  forwardRef,
+  memo,
+  ReactNode,
+  useEffect,
+  useState,
+} from "react";
+import { subscribeToMediaStreams } from "./rtc";
+import { useForwardedRef } from "../useForwardedRef";
 
 export const RemoteDisplayVideo = memo(
-  ({ children }: { children: ReactNode }) => {
-    const [pc, setPC] = useState<RTCPeerConnection>();
-    const ref = useRef<HTMLVideoElement>(null);
+  forwardRef<HTMLVideoElement, { children?: ReactNode }>(
+    ({ children }, forwardedRef) => {
+      const ref = useForwardedRef(forwardedRef);
+      // TODO: trigger downstream change when mediaStream changes
+      const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
 
-    useEffect(() => {
-      const pc = new RTCPeerConnection();
+      useEffect(() => {
+        const unsubscribe = subscribeToMediaStreams((mediaStream) => {
+          // setMediaStream(mediaStream);
+          if (!ref.current) return;
+          ref.current.srcObject = mediaStream;
+        });
+        return unsubscribe;
+      }, []);
 
-      remoteDisplay.addEventListener("rtc:offer", async (e) => {
-        const offer = e.detail;
-        pc.setRemoteDescription(offer);
-        const answer = await pc.createAnswer();
-        pc.setLocalDescription(answer);
-        remoteDisplay.dispatchEvent(
-          new CustomEvent("rtc:answer", { detail: answer })
-        );
-      });
-
-      remoteDisplay.addEventListener("rtc:ice", (e) => {
-        pc.addIceCandidate(new RTCIceCandidate(e.detail));
-      });
-
-      pc.addEventListener("icecandidate", (e) => {
-        console.log("ice candidate", e);
-        if (e.candidate) ws?.send("rtc:ice", JSON.stringify(e.candidate));
-      });
-
-      pc.addEventListener("track", (e) => {
-        if (!ref.current) return;
-        const mediaStream = new MediaStream();
-        e.track.enabled = true;
-        mediaStream.addTrack(e.track);
-        ref.current.srcObject = mediaStream;
-      });
-    });
-
-    return (
-      <video
-        ref={ref}
-        style={{
-          position: "absolute",
-          width: "100%",
-          height: "100%",
-          opacity: 0,
-        }}
-        muted
-        autoPlay
-        playsInline
-      >
-        {children}
-      </video>
-    );
-  }
+      return (
+        <video
+          // key={mediaStream?.id}
+          ref={ref}
+          style={style}
+          muted
+          autoPlay
+          playsInline
+        >
+          {children}
+        </video>
+      );
+    }
+  )
 );
+
+const style: CSSProperties = {
+  position: "absolute",
+  width: "100%",
+  height: "100%",
+  top: 0,
+  left: 0,
+  opacity: 0,
+};
