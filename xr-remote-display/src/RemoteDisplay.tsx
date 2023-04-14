@@ -23,17 +23,14 @@ export function RemoteDisplay({
 }) {
   const renderer = useThree((s) => s.gl);
   const isPresenting = useXR((s) => s.isPresenting);
+  useRerenderOnAspectRatioChange(video);
+  const aspectRatio = Number.isFinite(video.videoWidth / video.videoHeight)
+    ? video.videoWidth / video.videoHeight
+    : 16 / 9;
   const layer = useMemo(
     () => (isPresenting ? createLayer(renderer) : null),
     [renderer, isPresenting]
   );
-  const [aspectRatio, setAspectRatio] = useState(16 / 9);
-  useEffect(() => {
-    const onMetadata = () =>
-      setAspectRatio(video.videoWidth / video.videoHeight);
-    video.addEventListener("loadedmetadata", onMetadata);
-    return () => video.removeEventListener("loadedmetadata", onMetadata);
-  }, []);
 
   // update layer transform
   useEffect(() => {
@@ -88,4 +85,13 @@ function createLayer(renderer: WebGLRenderer) {
   const layer = xrMediaFactory.createCylinderLayer(video, { space });
   session.updateRenderState({ layers: [layer, renderer.xr.getBaseLayer()] });
   return layer;
+}
+
+function useRerenderOnAspectRatioChange(video: HTMLVideoElement) {
+  const [, set] = useState(0);
+  useEffect(() => {
+    const forceRerender = () => set((x) => x + 1);
+    video.addEventListener("loadedmetadata", forceRerender);
+    return () => video.removeEventListener("loadedmetadata", forceRerender);
+  }, [video]);
 }

@@ -1,44 +1,88 @@
 <html>
   <head>
     <title>Stream</title>
+    <!--
+      This is a very simple app to capture the desktop video stream and
+      establish the RTC connection.
+    -->
   </head>
   <body>
-    <button>Stream</button>
+    <!-- Clicking this button will initiate the connection process -->
+    <button>Connect</button>
     <script type="module">
+      //
+      // Vite's HMR API is available as `import.meta.hot`. We rename it `ws` for
+      // websocket, as the only methods we need are sending and receiving
+      // messages from the immersive app. If you're not using Vite, a custom
+      // websocket connection or any other method of passing messages will work.
+      //
       const ws = import.meta.hot;
       let stream;
 
-      async function start() {
+      async function connect() {
+        //
+        // Get the desktop video stream. This is only done once to allow for
+        // reconnections without having to click through the permissions dialog
+        // if the immersive app reloads.
+        //
         if (!stream) {
           stream = await navigator.mediaDevices.getDisplayMedia({
             video: { frameRate: 30, displaySurface: "monitor" },
           });
         }
 
+        //
+        // WebRTC can be quite complex, but this use case is very simple and
+        // because both the headset and dev machine are connecting to the dev
+        // server, we can skip one of the usual hurdles, which is having the two
+        // peers discover each other.
+        //
+        // The connection is established by passing primarily two types of
+        // messages:
+        //
+        // 1. Session Description Protocol (SDP offer/answer)
+        // 2. Interactive Connectivity Establishment (ICE)
+        //
+        // The SDP messages communicate media information, like what streams and
+        // codecs will be used. The ICE messages allow the peers to negotiate
+        // the lowest latency connection over the network. In our case both
+        // peers should be on the same local network, and latency will mostly
+        // not be an issue.
+        //
+        // Read more about [WebRTC on
+        // MDN](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Signaling_and_video_calling)
+        //
         const pc = new RTCPeerConnection();
-        pc.addEventListener("icecandidate", (e) => {
-          if (e.candidate) ws.send("rtc:ice", JSON.stringify(e.candidate));
-        });
-
         stream.getTracks().forEach((track) => pc.addTrack(track, stream));
 
+        // Send an SDP offer
         const offer = await pc.createOffer();
         pc.setLocalDescription(offer);
         ws.send("rtc:offer", JSON.stringify(offer));
 
-        ws?.on("rtc:ice", async (data) => {
-          pc.addIceCandidate(new RTCIceCandidate(JSON.parse(data)));
-        });
-
+        // Recieve the SDP answer
         ws?.on("rtc:answer", async (data) => {
           await pc.setRemoteDescription(JSON.parse(data));
           console.log("remote display stream started");
         });
+
+        // Send ICE candidate messages
+        pc.addEventListener("icecandidate", (e) => {
+          if (e.candidate) ws.send("rtc:ice", JSON.stringify(e.candidate));
+        });
+
+        // Recieve ICE candidate messages
+        ws?.on("rtc:ice", async (data) => {
+          pc.addIceCandidate(new RTCIceCandidate(JSON.parse(data)));
+        });
       }
 
-      ws?.on("rtc:connect", start);
+      // Listen for the immersive app's connect message. It is send
+      // automatically when that app loads, and it can initiate the connection
+      // process.
+      ws?.on("rtc:connect", connect);
 
-      document.querySelector("button").addEventListener("click", start);
+      document.querySelector("button").addEventListener("click", connect);
     </script>
   </body>
 </html>
