@@ -8,32 +8,33 @@
       const ws = import.meta.hot;
       let stream;
 
-      const pc = new RTCPeerConnection();
-      pc.addEventListener("icecandidate", (e) => {
-        if (e.candidate) ws.send("rtc:ice", JSON.stringify(e.candidate));
-      });
-
       async function start() {
         if (!stream) {
           stream = await navigator.mediaDevices.getDisplayMedia({
-            video: { frameRate: 30 },
+            video: { frameRate: 30, displaySurface: "monitor" },
           });
         }
+
+        const pc = new RTCPeerConnection();
+        pc.addEventListener("icecandidate", (e) => {
+          if (e.candidate) ws.send("rtc:ice", JSON.stringify(e.candidate));
+        });
+
         stream.getTracks().forEach((track) => pc.addTrack(track, stream));
 
         const offer = await pc.createOffer();
         pc.setLocalDescription(offer);
         ws.send("rtc:offer", JSON.stringify(offer));
+
+        ws?.on("rtc:ice", async (data) => {
+          pc.addIceCandidate(new RTCIceCandidate(JSON.parse(data)));
+        });
+
+        ws?.on("rtc:answer", async (data) => {
+          await pc.setRemoteDescription(JSON.parse(data));
+          console.log("remote display stream started");
+        });
       }
-
-      ws?.on("rtc:ice", async (data) => {
-        pc.addIceCandidate(new RTCIceCandidate(JSON.parse(data)));
-      });
-
-      ws?.on("rtc:answer", async (data) => {
-        await pc.setRemoteDescription(JSON.parse(data));
-        console.log("remote display stream started");
-      });
 
       ws?.on("rtc:connect", start);
 
