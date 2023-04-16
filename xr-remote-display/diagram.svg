@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
+  width="601px" height="441px" viewBox="-0.5 -0.5 601 441">
+  <g>
+    <rect x="0" y="320" width="600" height="120" fill="none" stroke="currentColor"
+      stroke-dasharray="8 8" />
+    <rect x="0" y="0" width="600" height="280" fill="none" stroke="currentColor"
+      stroke-dasharray="8 8" />
+    <rect x="380" y="340" width="200" height="80" rx="12" ry="12" fill="none" stroke="currentColor" />
+    <g transform="translate(-0.5 -0.5)">
+      <switch>
+        <foreignObject width="100%" height="100%"
+          requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"
+          style="overflow: visible; text-align: left;">
+          <div xmlns="http://www.w3.org/1999/xhtml"
+            style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 198px; height: 1px; padding-top: 380px; margin-left: 381px;">
+            <div style="box-sizing: border-box; font-size: 0px; text-align: center;">
+              <div
+                style="display: inline-block; font-size: 12px; font-family: Helvetica; color: currentColor; line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;"><font
+                  style="font-size: 14px;">
+                  <b>Immersive App</b>
+                  <br />
+                </font>https://xxx.xxx.xxx.xxx:5173</div>
+            </div>
+          </div>
+        </foreignObject>
+        <text x="480" y="384" fill="currentColor" font-family="Helvetica" font-size="12px"
+          text-anchor="middle">Immersive App...</text>
+      </switch>
+    </g>
+    <path d="M 200 20 L 560 20 L 580 60 L 560 100 L 200 100 L 180 60 Z" fill="none"
+      stroke="currentColor" stroke-miterlimit="10" />
+    <g transform="translate(-0.5 -0.5)">
+      <switch>
+        <foreignObject width="100%" height="100%"
+          requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"
+          style="overflow: visible; text-align: left;">
+          <div xmlns="http://www.w3.org/1999/xhtml"
+            style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 398px; height: 1px; padding-top: 60px; margin-left: 181px;">
+            <div
+              style="box-sizing: border-box; font-size: 0px; text-align: center;">
+              <div
+                style="display: inline-block; font-size: 12px; font-family: Helvetica; color: currentColor; line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                <font style="font-size: 14px;">
+                  <b>Vite Dev Server</b>
+                </font>
+              </div>
+            </div>
+          </div>
+        </foreignObject>
+        <text x="380" y="64" fill="currentColor" font-family="Helvetica" font-size="12px"
+          text-anchor="middle">Vite Dev Server</text>
+      </switch>
+    </g>
+    <rect x="180" y="180" width="200" height="80" rx="12" ry="12" fill="none" stroke="currentColor" />
+    <g transform="translate(-0.5 -0.5)">
+      <switch>
+        <foreignObject width="100%" height="100%"
+          requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"
+          style="overflow: visible; text-align: left;">
+          <div xmlns="http://www.w3.org/1999/xhtml"
+            style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 198px; height: 1px; padding-top: 220px; margin-left: 181px;">
+            <div style="box-sizing: border-box; font-size: 0px; text-align: center;">
+              <div
+                style="display: inline-block; font-size: 12px; font-family: Helvetica; color: currentColor; line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;"><font
+                  style="font-size: 14px;">
+                  <b>Streaming App</b>
+                  <br />
+                </font>https://localhost:5173/stream.html</div>
+            </div>
+          </div>
+        </foreignObject>
+        <text x="280" y="224" fill="currentColor" font-family="Helvetica" font-size="12px"
+          text-anchor="middle">Streaming App...</text>
+      </switch>
+    </g>
+    <path d="M 330 169.9 L 330 80 L 430 80 L 430 329.9" fill="none" stroke="#82b366"
+      stroke-width="3" stroke-miterlimit="10" stroke-dasharray="3 3" pointer-events="stroke" />
+    <path d="M 330 176.65 L 325.5 167.65 L 330 169.9 L 334.5 167.65 Z" fill="#82b366"
+      stroke="#82b366" stroke-width="3" stroke-miterlimit="10" />
+    <path d="M 430 336.65 L 425.5 327.65 L 430 329.9 L 434.5 327.65 Z" fill="#82b366"
+      stroke="#82b366" stroke-width="3" stroke-miterlimit="10" />
+    <g transform="translate(-0.5 -0.5)">
+      <switch>
+        <foreignObject width="100%" height="100%"
+          requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"
+          style="overflow: visible; text-align: left;">
+          <div xmlns="http://www.w3.org/1999/xhtml"
+            style="display: flex; align-items: unsafe center; justify-content: unsafe flex-start; width: 1px; height: 1px; padding-top: 241px; margin-left: 442px;">
+            <div style="box-sizing: border-box; font-size: 0px; text-align: left;">
+              <div
+                style="display: inline-block; font-size: 11px; font-family: Helvetica; color: currentColor; line-height: 1.2; pointer-events: all; white-space: nowrap;">
+                <b style="font-size: 14px;">
+                  <font style="font-size: 14px;" color="#81b365">WebRTC Signaling<br /></font>
+                </b>
+                <div style="font-size: 14px;">
+                  <b style="">
+                    <font style="font-size: 14px;" color="#81b365">over HMR websocket</font>
+                  </b>
+                </div>
+              </div>
+            </div>
+          </div>
+        </foreignObject>
+        <text x="442" y="244" fill="currentColor" font-family="Helvetica" font-size="11px">WebRTC
+          Signaling...</text>
+      </switch>
+    </g>
+    <path d="M 330 270.1 L 330 380 L 369.9 380" fill="none" stroke="#6c8ebf" stroke-width="3"
+      stroke-miterlimit="10" pointer-events="stroke" />
+    <path d="M 330 263.35 L 334.5 272.35 L 330 270.1 L 325.5 272.35 Z" fill="#6c8ebf"
+      stroke="#6c8ebf" stroke-width="3" stroke-miterlimit="10" />
+    <path d="M 376.65 380 L 367.65 384.5 L 369.9 380 L 367.65 375.5 Z" fill="#6c8ebf"
+      stroke="#6c8ebf" stroke-width="3" stroke-miterlimit="10" />
+    <g transform="translate(-0.5 -0.5)">
+      <switch>
+        <foreignObject width="100%" height="100%"
+          requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"
+          style="overflow: visible; text-align: left;">
+          <div xmlns="http://www.w3.org/1999/xhtml"
+            style="display: flex; align-items: unsafe center; justify-content: unsafe flex-end; width: 1px; height: 1px; padding-top: 350px; margin-left: 318px;">
+            <div style="box-sizing: border-box; font-size: 0px; text-align: right;">
+              <div
+                style="display: inline-block; font-size: 14px; font-family: Helvetica; color: rgb(108, 142, 191); line-height: 1.2; pointer-events: all; font-weight: bold; white-space: nowrap;">
+                WebRTC<br />PeerConnection</div>
+            </div>
+          </div>
+        </foreignObject>
+        <text x="318" y="354" fill="#6c8ebf" font-family="Helvetica" font-size="14px"
+          text-anchor="end" font-weight="bold">WebRTC...</text>
+      </switch>
+    </g>
+    <path d="M 309 180 L 309 110.1" fill="none" stroke="#d79b00" stroke-width="3"
+      stroke-miterlimit="10" pointer-events="stroke" />
+    <path d="M 309 103.35 L 313.5 112.35 L 309 110.1 L 304.5 112.35 Z" fill="#d79b00"
+      stroke="#d79b00" stroke-width="3" stroke-miterlimit="10" />
+    <g transform="translate(-0.5 -0.5)">
+      <switch>
+        <foreignObject width="100%" height="100%"
+          requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"
+          style="overflow: visible; text-align: left;">
+          <div xmlns="http://www.w3.org/1999/xhtml"
+            style="display: flex; align-items: unsafe center; justify-content: unsafe flex-end; width: 1px; height: 1px; padding-top: 141px; margin-left: 299px;">
+            <div style="box-sizing: border-box; font-size: 0px; text-align: right;">
+              <div
+                style="display: inline-block; font-size: 11px; font-family: Helvetica; color: currentColor; line-height: 1.2; pointer-events: all; white-space: nowrap;">
+                <font style="font-size: 14px;" color="#d79a02">
+                  <b>Page Load</b>
+                </font>
+              </div>
+            </div>
+          </div>
+        </foreignObject>
+        <text x="299" y="144" fill="currentColor" font-family="Helvetica" font-size="11px"
+          text-anchor="end">Page Load</text>
+      </switch>
+    </g>
+    <path d="M 410 341.04 L 410 110.1" fill="none" stroke="#d79b00" stroke-width="3"
+      stroke-miterlimit="10" pointer-events="stroke" />
+    <path d="M 410 103.35 L 414.5 112.35 L 410 110.1 L 405.5 112.35 Z" fill="#d79b00"
+      stroke="#d79b00" stroke-width="3" stroke-miterlimit="10" />
+    <image x="19.5" y="308.5" width="130" height="130"
+      xlink:href="data:image/svg+xml;base64,PHN2ZyB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBzdHlsZT0iZmlsbC1ydWxlOmV2ZW5vZGQ7Y2xpcC1ydWxlOmV2ZW5vZGQ7c3Ryb2tlLWxpbmVjYXA6cm91bmQ7c3Ryb2tlLWxpbmVqb2luOnJvdW5kO3N0cm9rZS1taXRlcmxpbWl0OjEuNTsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDI1NiAyNTYiIGhlaWdodD0iMTAwJSIgd2lkdGg9IjEwMCUiPiYjeGE7ICAgIDxnIHRyYW5zZm9ybT0ibWF0cml4KDEsMCwwLDEsLTAuMzQ1OTQ1LC0yNS4xOTQxKSI+JiN4YTsgICAgICAgIDxnIGlkPSJMYXllcjEiPiYjeGE7ICAgICAgICAgICAgPGc+JiN4YTsgICAgICAgICAgICAgICAgPGcgdHJhbnNmb3JtPSJtYXRyaXgoLTEsMCwwLDEsMjU2LjY5MiwwKSI+JiN4YTsgICAgICAgICAgICAgICAgICAgIDxwYXRoIHN0eWxlPSJmaWxsOm5vbmU7c3Ryb2tlOmJsYWNrO3N0cm9rZS13aWR0aDozcHg7IiBkPSJNMTI4LjI5OSw5Ni45NzFDMTMyLjA5Niw5Ni45NzEgMTkyLjgwMiw5NS43MSAyMTkuMjk5LDExMi4wMjdDMjMyLjI1OSwxMjAuMDA4IDI0MC40MDIsMTM1LjMyMiAyMzkuNjQzLDE1Mi4zM0MyMzcuMDM3LDIxMC43NDIgMTcyLjc5MiwyMDkuMDY4IDE2OC4zNjIsMjA5LjM5NkMxNTIuNTU5LDIxMC41NjYgMTQ3LjQ0OSwxODguMDI0IDEyOC4yOTksMTg4LjAyNEMxMDkuMTQ5LDE4OC4wMjQgMTA0LjEzMywyMTAuNTY2IDg4LjMzLDIwOS4zOTZDODMuOSwyMDkuMDY4IDE5LjY1NSwyMTAuNzQyIDE3LjA0OSwxNTIuMzNDMTYuMjksMTM1LjMyMiAyNC40MzMsMTIwLjAwOCAzNy4zOTMsMTEyLjAyN0M2My44OSw5NS43MSAxMjQuNTAyLDk2Ljk3MSAxMjguMjk5LDk2Ljk3MVoiLz4mI3hhOyAgICAgICAgICAgICAgICA8L2c+JiN4YTsgICAgICAgICAgICAgICAgPGcgdHJhbnNmb3JtPSJtYXRyaXgoMC45NTI3ODksMC41MzMyOTEsLTAuNTMwODkyLDAuOTQ4NTA0LDkzLjY4MDgsLTQyLjU1MzMpIj4mI3hhOyAgICAgICAgICAgICAgICAgICAgPGVsbGlwc2Ugc3R5bGU9ImZpbGw6bm9uZTtzdHJva2U6YmxhY2s7c3Ryb2tlLW9wYWNpdHk6MC40O3N0cm9rZS13aWR0aDoyLjc1cHg7IiByeT0iMTYuODA5IiByeD0iMTMuMzk5IiBjeT0iMTc0Ljg0NyIgY3g9Ijk3LjQwMyIvPiYjeGE7ICAgICAgICAgICAgICAgIDwvZz4mI3hhOyAgICAgICAgICAgICAgICA8ZyB0cmFuc2Zvcm09Im1hdHJpeCgtMC45NTI3ODksMC41MzMyOTEsMC41MzA4OTIsMC45NDg1MDQsMTYxLjY0LC00Mi41NTMzKSI+JiN4YTsgICAgICAgICAgICAgICAgICAgIDxlbGxpcHNlIHN0eWxlPSJmaWxsOm5vbmU7c3Ryb2tlOmJsYWNrO3N0cm9rZS1vcGFjaXR5OjAuNDtzdHJva2Utd2lkdGg6Mi43NXB4OyIgcnk9IjE2LjgwOSIgcng9IjEzLjM5OSIgY3k9IjE3NC44NDciIGN4PSI5Ny40MDMiLz4mI3hhOyAgICAgICAgICAgICAgICA8L2c+JiN4YTsgICAgICAgICAgICAgICAgPGcgdHJhbnNmb3JtPSJtYXRyaXgoMSwwLDAsMSwtMC43NTA2NDIsLTAuMzUyMDQxKSI+JiN4YTsgICAgICAgICAgICAgICAgICAgIDxjaXJjbGUgc3R5bGU9ImZpbGw6bm9uZTtzdHJva2U6YmxhY2s7c3Ryb2tlLW9wYWNpdHk6MC40O3N0cm9rZS13aWR0aDozcHg7IiByPSI4LjA0MyIgY3k9IjE2OC4yNTEiIGN4PSIxMjguMjM4Ii8+JiN4YTsgICAgICAgICAgICAgICAgPC9nPiYjeGE7ICAgICAgICAgICAgPC9nPiYjeGE7ICAgICAgICA8L2c+JiN4YTsgICAgPC9nPiYjeGE7ICAgIDxnIGlkPSJMYXllcjIiPiYjeGE7ICAgIDwvZz4mI3hhOyAgICA8ZyBpZD0iTGF5ZXIyMSI+JiN4YTsgICAgPC9nPiYjeGE7PC9zdmc+"
+      preserveAspectRatio="none" />
+    <g fill="currentColor" font-family="Helvetica" font-weight="bold" text-anchor="middle"
+      font-size="14px">
+      <text x="84.5" y="420.5">Headset</text>
+    </g>
+    <image x="14.5" y="49.5" width="140" height="140"
+      xlink:href="data:image/svg+xml;base64,PHN2ZyB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBzdHlsZT0iZmlsbC1ydWxlOmV2ZW5vZGQ7Y2xpcC1ydWxlOmV2ZW5vZGQ7c3Ryb2tlLWxpbmVjYXA6cm91bmQ7c3Ryb2tlLWxpbmVqb2luOnJvdW5kO3N0cm9rZS1taXRlcmxpbWl0OjEuNTsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDI1NiAyNTYiIGhlaWdodD0iMTAwJSIgd2lkdGg9IjEwMCUiPiYjeGE7ICAgIDxnIHRyYW5zZm9ybT0ibWF0cml4KDEsMCwwLDEsMS41ODA5MywxOS41MjcyKSI+JiN4YTsgICAgICAgIDxnIHRyYW5zZm9ybT0ibWF0cml4KDEsMCwwLDAuODc5NjMzLDIuNDYxMTUsMjguMjg1KSI+JiN4YTsgICAgICAgICAgICA8cGF0aCBzdHlsZT0iZmlsbDpub25lO3N0cm9rZTpibGFjaztzdHJva2Utd2lkdGg6My4xOXB4OyIgZD0iTTIwNS4zNjYsMTA4Ljg5MUw0Ny40MzksMTA4Ljg5MUwyMi4xNjMsMTk1Ljc2MkwyMjUuNzUzLDE5NS43NjJMMjA1LjM2NiwxMDguODkxWiIvPiYjeGE7ICAgICAgICA8L2c+JiN4YTsgICAgICAgIDxnIHRyYW5zZm9ybT0ibWF0cml4KDAuODc4OTk4LDAsMCwwLjUxMTkzMiwxNi40NjA0LDc1LjI5NTYpIj4mI3hhOyAgICAgICAgICAgIDxwYXRoIHN0eWxlPSJmaWxsLW9wYWNpdHk6MC40OyIgZD0iTTIwNi42OTcsMTA4Ljg5MUw0Ny40MzksMTA4Ljg5MUwzMy41MzIsMTk1Ljc2MkwyMTguNjc2LDE5NS43NjJMMjA2LjY5NywxMDguODkxWiIvPiYjeGE7ICAgICAgICA8L2c+JiN4YTsgICAgICAgIDxnIHRyYW5zZm9ybT0ibWF0cml4KDAuNzc3MDU5LDAsMCwxLjA0NjE1LDMxLjI3MTQsLTk3LjQ1NSkiPiYjeGE7ICAgICAgICAgICAgPHJlY3Qgc3R5bGU9ImZpbGw6bm9uZTtzdHJva2U6YmxhY2s7c3Ryb2tlLXdpZHRoOjMuMjZweDsiIGhlaWdodD0iMTAyLjcxNSIgd2lkdGg9IjIwMy41OSIgeT0iMTA4Ljg5MSIgeD0iMjMuOTk0Ii8+JiN4YTsgICAgICAgIDwvZz4mI3hhOyAgICAgICAgPGcgdHJhbnNmb3JtPSJtYXRyaXgoMC43MjcyNzQsMCwwLDAuOTUzNTA0LDM3LjUzMzgsLTgyLjYwNzgpIj4mI3hhOyAgICAgICAgICAgIDxyZWN0IHN0eWxlPSJmaWxsOm5vbmU7c3Ryb2tlOmJsYWNrO3N0cm9rZS1vcGFjaXR5OjAuNDtzdHJva2Utd2lkdGg6My41NHB4OyIgaGVpZ2h0PSIxMDIuNzE1IiB3aWR0aD0iMjAzLjU5IiB5PSIxMDguODkxIiB4PSIyMy45OTQiLz4mI3hhOyAgICAgICAgPC9nPiYjeGE7ICAgIDwvZz4mI3hhOzwvc3ZnPg=="
+      preserveAspectRatio="none" />
+    <g fill="currentColor" font-family="Helvetica" font-weight="bold" text-anchor="middle"
+      font-size="14px">
+      <text x="84.5" y="189.5">Dev Machine</text>
+    </g>
+  </g>
+</svg>
