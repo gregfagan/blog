@@ -117,3 +117,71 @@ The plugin simply forwards arbitrary JSON blobs between the two apps. We give
 names to a few specific events we'll need when setting up the WebRTC connection.
 See the [Vite Plugin API](https://vitejs.dev/guide/api-plugin.html) for more
 information.
+
+### Streaming App
+
+Next let's look at the app that will run in a browser on the dev machine. It's
+goal is to grab the desktop video and initiate the WebRTC connection. It's a
+simple enough app that I've implemented it entirely in the HTML document.
+
+https://github.com/gregfagan/blog/blob/612e986dac3ca9d3e1663c7fbb49db882f4b5f1d/xr-remote-display/stream.html#L1-L6
+
+The only element on the page is a button to initiate the connection. Usually,
+that action will be triggered when the immersive app loads and sends this one an
+`rtc:connect` message, but occasionally we'll need to do it manually. Either
+way, the first time it happens on each page load, we'll have to click through
+the browser's video streaming permissions dialog.
+
+https://github.com/gregfagan/blog/blob/612e986dac3ca9d3e1663c7fbb49db882f4b5f1d/xr-remote-display/stream.html#L7-L9
+
+The script begins by defining two references. The first, `ws`, is an alias for
+Vite's HMR API, at `import.meta.hot`. This API is made available by a script
+that Vite appends to the page when serving it in development mode.
+
+Normally you'd use this API for custom handling of HMR events, but in our case
+we're just taking advantage of the fact that it's the websocket connection that
+our Vite plugin takes advantages of; for this reason it's renamed `ws`.
+
+The second reference will be to the desktop video `MediaStream`. The mutable
+reference will be initialized only the first time the `connect` function is
+called, so that reconnection events can happen without having to click through
+the permissions dialog again.
+
+https://github.com/gregfagan/blog/blob/612e986dac3ca9d3e1663c7fbb49db882f4b5f1d/xr-remote-display/stream.html#L11-L16
+
+After obtaining the MediaStream, we'll set up the WebRTC connection. WebRTC can
+be quite complex, but this use case is very simple and because both the headset
+and dev machine are connected to the dev server, we can skip the usual hurdle of
+having the two peers discover each other.
+
+The connection is established by passing primarily two types of messages:
+
+1. Session Description Protocol (SDP offer/answer)
+2. Interactive Connectivity Establishment (ICE)
+
+The SDP messages communicate media information, like what streams and codecs
+will be used. The ICE messages allow the peers to negotiate the lowest latency
+connection over the network. In our case both peers should be on the same local
+network, and latency will mostly not be an issue. You can read more about
+[WebRTC on MDN](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Signaling_and_video_calling).
+
+The first thing to do is create the `RTCPeerConnection` object and hook it up to
+the `MediaStream`.
+
+https://github.com/gregfagan/blog/blob/612e986dac3ca9d3e1663c7fbb49db882f4b5f1d/xr-remote-display/stream.html#L18-L19
+
+Now we'll create and send the SDP offer, and add a message listener for the SDP
+answer.
+
+https://github.com/gregfagan/blog/blob/612e986dac3ca9d3e1663c7fbb49db882f4b5f1d/xr-remote-display/stream.html#L21-L30
+
+The last thing to do in our `connect` function is handle ICE messaging by
+listening to the messages coming from our own peer connection, sending them over
+to the immersive app, and listening for its ICE messages.
+
+https://github.com/gregfagan/blog/blob/612e986dac3ca9d3e1663c7fbb49db882f4b5f1d/xr-remote-display/stream.html#L32-L41
+
+Finally, we hook up the two events that can trigger the whole process – either
+the `rtc:connect` message from the immersive app, or a click on our button.
+
+https://github.com/gregfagan/blog/blob/612e986dac3ca9d3e1663c7fbb49db882f4b5f1d/xr-remote-display/stream.html#L43-L48
