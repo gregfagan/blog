@@ -4,19 +4,19 @@
 
 The web platform is a compelling choice for immersive XR development. The WebXR
 API is mature enough to build great experiences, and deliver them to users
-without gatekeepers.
+quickly and without gatekeepers.
 
-One benefit of using web technologies is enabling rapid iteration times. From
-the early days of "live reload" to modern state-preserving "hot module
-replacement," it's long been the norm to modify a web page or app while it's
-running and quickly see the results. These tools offer a solution to one of the
-pain points of XR development, where the iteration cycle is usually slowed by
-having to code outside of your immersive experience, and often with the headset
-removed, requiring cumbersome donning and doffing for every tweak.
+One benefit of using web technologies is rapid iteration times. From the early
+days of "live reload" to modern state-preserving "hot module replacement," it's
+long been the norm to modify a web page or app while it's running and quickly
+see the results. These tools offer a solution to one of the pain points of XR
+development, where the iteration cycle is usually slowed by having to code
+outside of your immersive experience, often with the headset removed, requiring
+cumbersome donning and doffing for every tweak.
 
 If you're iterating on non-interactive parts of the experience, like graphics or
 audio, then you can work against a flat projection of the scene, maybe using the
-WebXR emulator Chromium dev tool. If your headset produces clear enough text to
+Chromium WebXR emulator dev tool. If your headset produces clear enough text to
 work with, you can also use a remote display or remote desktop app to keep the
 headset on. You'll still encounter friction when working on interactive
 behaviors, like gestures, that require you to actually enter the immersive

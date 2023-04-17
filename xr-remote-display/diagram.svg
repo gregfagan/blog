@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
-  width="601px" height="441px" viewBox="-0.5 -0.5 601 441">
+  width="601px" height="441px" viewBox="-0.5 -0.5 601 441" style="background:white">
   <g>
     <rect x="0" y="320" width="600" height="120" fill="none" stroke="currentColor"
       stroke-dasharray="8 8" />
@@ -7,25 +7,21 @@
       stroke-dasharray="8 8" />
     <rect x="380" y="340" width="200" height="80" rx="12" ry="12" fill="none" stroke="currentColor" />
     <g transform="translate(-0.5 -0.5)">
-      <switch>
-        <foreignObject width="100%" height="100%"
-          requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"
-          style="overflow: visible; text-align: left;">
-          <div xmlns="http://www.w3.org/1999/xhtml"
-            style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 198px; height: 1px; padding-top: 380px; margin-left: 381px;">
-            <div style="box-sizing: border-box; font-size: 0px; text-align: center;">
-              <div
-                style="display: inline-block; font-size: 12px; font-family: Helvetica; color: currentColor; line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;"><font
-                  style="font-size: 14px;">
-                  <b>Immersive App</b>
-                  <br />
-                </font>https://xxx.xxx.xxx.xxx:5173</div>
-            </div>
+      <foreignObject width="100%" height="100%"
+        requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"
+        style="overflow: visible; text-align: left;">
+        <div xmlns="http://www.w3.org/1999/xhtml"
+          style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 198px; height: 1px; padding-top: 380px; margin-left: 381px;">
+          <div style="box-sizing: border-box; font-size: 0px; text-align: center;">
+            <div
+              style="display: inline-block; font-size: 12px; font-family: Helvetica; color: currentColor; line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;"><font
+                style="font-size: 14px;">
+                <b>Immersive App</b>
+                <br />
+              </font>https://xxx.xxx.xxx.xxx:5173</div>
           </div>
-        </foreignObject>
-        <text x="480" y="384" fill="currentColor" font-family="Helvetica" font-size="12px"
-          text-anchor="middle">Immersive App...</text>
-      </switch>
+        </div>
+      </foreignObject>
     </g>
     <path d="M 200 20 L 560 20 L 580 60 L 560 100 L 200 100 L 180 60 Z" fill="none"
       stroke="currentColor" stroke-miterlimit="10" />
