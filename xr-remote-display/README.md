@@ -185,3 +185,42 @@ Finally, we hook up the two events that can trigger the whole process – either
 the `rtc:connect` message from the immersive app, or a click on our button.
 
 https://github.com/gregfagan/blog/blob/612e986dac3ca9d3e1663c7fbb49db882f4b5f1d/xr-remote-display/stream.html#L43-L48
+
+### Immersive App: WebRTC
+
+The next task is to receive the desktop video stream in the immersive app and
+display it in a standard `<video />` element.
+
+https://github.com/gregfagan/blog/blob/2de71eac7d96d4e4f511d29cccfbfd465a205816/xr-remote-display/src/connectRemoteDisplay.ts#L1-L11
+
+Like the streaming app, we grab a reference to the websocket API. Our equivalent
+to the input `stream` is an output `video`. To keep the demonstration concise,
+this `video` element is created through the standard DOM API and exported from
+the module; we'll need the reference to it later to render in WebXR.
+
+It's configured to autoplay, and some style rules to keep it in the document but
+invisible. Tweak these to verify it's working.
+
+Also like the streaming app, we have a `connect` function. It's called when the
+app initializes over in `main.tsx`:
+
+https://github.com/gregfagan/blog/blob/93830f94052a28d35cdf17e79b1d5cadde9b1448/xr-remote-display/src/main.tsx#L6-L8
+
+In `connect`, we receive the offer from the streaming app and send an answer:
+
+https://github.com/gregfagan/blog/blob/025ad68cba378194a45cf805f0b5bcda18c4af0a/xr-remote-display/src/connectRemoteDisplay.ts#L13-L21
+
+...and send/receive ICE candidates:
+
+https://github.com/gregfagan/blog/blob/025ad68cba378194a45cf805f0b5bcda18c4af0a/xr-remote-display/src/connectRemoteDisplay.ts#L23-L29
+
+Once the connection is established, our `RTCPeerConnection` will emit a `track`
+event with the remote desktop video stream.
+
+https://github.com/gregfagan/blog/blob/025ad68cba378194a45cf805f0b5bcda18c4af0a/xr-remote-display/src/connectRemoteDisplay.ts#L31-L37
+
+With all of our event handlers established, we send the `rtc:connect` event over
+to the streaming app, kicking off the connection process (or reconnecting, if we
+had to reload the page).
+
+https://github.com/gregfagan/blog/blob/025ad68cba378194a45cf805f0b5bcda18c4af0a/xr-remote-display/src/connectRemoteDisplay.ts#L39-L40
