@@ -97,5 +97,23 @@ The key files implementing the remote display logic are:
 - `RemoteDisplay.tsx`, a React component rendering the display in the WebXR
   session
 
-I recommend reading them in that order,
-[starting with the Vite config](./vite.config.ts).
+### Configuring Vite
+
+We need our Vite config to serve both of our browser apps over https and forward
+messages between them. The WebXR and WebRTC APIs we need to use only work in a
+secure context, so https is required, configured with the `server` rule and
+`@vitejs/plugin-basic-ssl`. By default Vite only serves a single `index.html`
+page, but it's easy to add another with `build.rollupOptions.input`:
+
+https://github.com/gregfagan/blog/blob/e60733f481e9e3a3e00b016c2ab0d1e13cf45faa/xr-remote-display/vite.config.ts#L1-L17
+
+Message passing is easily implemented with a custom plugin, which I've added to
+the config itself due to its simplicity. `configureServer` gives us a hook into
+the websocket that Vite uses for hot module replacement.
+
+https://github.com/gregfagan/blog/blob/e60733f481e9e3a3e00b016c2ab0d1e13cf45faa/xr-remote-display/vite.config.ts#L19-L38
+
+The plugin simply forwards arbitrary JSON blobs between the two apps. We give
+names to a few specific events we'll need when setting up the WebRTC connection.
+See the [Vite Plugin API](https://vitejs.dev/guide/api-plugin.html) for more
+information.
