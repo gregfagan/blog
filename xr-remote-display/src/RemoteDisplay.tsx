@@ -23,16 +23,16 @@ export function RemoteDisplay({
 }) {
   const renderer = useThree((s) => s.gl);
   const isPresenting = useXR((s) => s.isPresenting);
-  useRerenderOnAspectRatioChange(video);
-  const aspectRatio = Number.isFinite(video.videoWidth / video.videoHeight)
-    ? video.videoWidth / video.videoHeight
-    : 16 / 9;
   const layer = useMemo(
     () => (isPresenting ? createLayer(renderer) : null),
     [renderer, isPresenting]
   );
 
-  // update layer transform
+  useRerenderOnAspectRatioChange(video);
+  const aspectRatio = Number.isFinite(video.videoWidth / video.videoHeight)
+    ? video.videoWidth / video.videoHeight
+    : 16 / 9;
+
   useEffect(() => {
     if (!layer) return;
     layer.centralAngle = centralAngle;
@@ -40,9 +40,6 @@ export function RemoteDisplay({
     layer.transform = transform;
   }, [layer, centralAngle, radius, transform]);
 
-  // If we have an active layer, render a material which will "punch a hole" in
-  // our rendering by writing to the depth buffer but not color.
-  // Without an active layer, render the remote display as a video texture.
   const material = layer ? (
     <meshBasicMaterial side={BackSide} colorWrite={false} />
   ) : (
