@@ -224,3 +224,75 @@ to the streaming app, kicking off the connection process (or reconnecting, if we
 had to reload the page).
 
 https://github.com/gregfagan/blog/blob/025ad68cba378194a45cf805f0b5bcda18c4af0a/xr-remote-display/src/connectRemoteDisplay.ts#L39-L40
+
+### Immersive App: WebXR
+
+With remote desktop video streaming implemented in ~130 lines of code, all
+that's left is rendering the result in our WebXR session.
+
+The display technology of my Quest Pro is pretty impressive, but still quite a
+bit short of what physical monitors are capable of. For comfortable ergonomics,
+I project my 16" Macbook Pro onto a curved screen, a bit over a meter in front
+of me, and covering a large field of view. It's comparable to Meta's remote
+display app or Horizon Workrooms.
+
+Since we're leveraging ThreeJS through React Three Fiber and ReactXR, the most
+straightforward approach is to use `CylinderGeometry` with a `VideoTexture`.
+This works, and I use it as a fallback when the WebXR session isn't available,
+but there's a better way.
+
+The WebXR API includes a system of layers, which are specialized geometry for
+compositing media or infrequently updating textures that the headset can render
+and reproject without the performance burden of the JavaScript application
+having to produce the pixels every frame.
+
+Using a WebXR cylinder media layer, we not only minimize the framerate cost of
+our remote display, but gain clarity as well: the compositor can directly read
+and render the video buffer, rather than sampling a copy of it from a userland
+texture.
+
+This API is used from a `RemoteDisplay` React component.
+
+https://github.com/gregfagan/blog/blob/86c9584162aa5533a512899bf5dd95cc6fe8e0e6/xr-remote-display/src/RemoteDisplay.tsx#L13-L23
+
+After the module imports, the component is defined with a few props related to
+the cylinder geometry. The
+[WebXR cylinder layer](https://www.w3.org/TR/webxrlayers-1/#xrcylinderayertype)
+is well defined, and it's pretty easy to map over to the ThreeJS
+`CylinderGeometry` that we'll use later. Tweak these values to find a
+comfortable size and location for the display.
+
+https://github.com/gregfagan/blog/blob/86c9584162aa5533a512899bf5dd95cc6fe8e0e6/xr-remote-display/src/RemoteDisplay.tsx#L24-L29
+
+The initial block of hooks is dedicated to the construction of the layer.
+`createLayer` is defined after the component; it uses the video exported from
+`connectRemoteDisplay.ts` module to add the media layer to the WebXR session.
+
+https://github.com/gregfagan/blog/blob/86c9584162aa5533a512899bf5dd95cc6fe8e0e6/xr-remote-display/src/RemoteDisplay.tsx#L76-L85
+
+To better understand this code, I recommend the
+[explainer](https://github.com/immersive-web/layers/blob/main/explainer.md) and
+especially
+[Meta's developer documentation](https://developer.oculus.com/documentation/web/webxr-layers/).
+One key detail here is the ordering in the array passed to
+`session.updateRenderState`'s `layers`; the remote display layer is drawn first,
+and the rest of our ReactXR app is drawn on top. This will be relevant later.
+
+Back to the component implementation, we handle another geometry problem, which
+is the video aspect ratio.
+
+https://github.com/gregfagan/blog/blob/86c9584162aa5533a512899bf5dd95cc6fe8e0e6/xr-remote-display/src/RemoteDisplay.tsx#L31-L34
+
+While the aspect ratio can be computed directly from the video properties,
+loading the video from the WebRTC stream is an asynch process, so a custom hook
+watches for the metadata event, forcing a rerender to make sure we've got the
+right one.
+
+https://github.com/gregfagan/blog/blob/86c9584162aa5533a512899bf5dd95cc6fe8e0e6/xr-remote-display/src/RemoteDisplay.tsx#L36-L41
+
+This block of code handles changes to the geometry. Eventually you'll probably
+want to move and scale the display with controller events, but for now it's
+sufficient to tweak it by modifying the code and taking advantage of hot module
+replacement. This `useEffect` forwards those updates to the layer.
+
+// TODO: material++
