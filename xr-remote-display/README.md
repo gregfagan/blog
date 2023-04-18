@@ -24,41 +24,26 @@ session, test the change, and exit back to your remote display app; with my
 Quest Pro and Meta's browser, this cycle still takes several seconds, jarringly
 blanking out the display during the transition.
 
-There is a faster way, however. Some of the libraries that build on WebXR — like
-React XR, itself building on React Three Fiber (hereafter R3F) — are HMR
-capable. In fact, R3F, with a dev server like Vite, already enable hot reload
-workflows for non-immersive 3D projects.
+There is a faster way. React Three Fiber with a dev server like Vite already
+enables hot reload workflows for non-immersive WebGL projects, and React XR
+builds on top of it for easier use with the WebXR API.
 
-The only remaining obstacle to HMR inside of an immersive session is actually
-being able to see your dev machine's display inside your experience. It turns
-out this is a pretty simple challenge to overcome, with about 200 lines of code
-leveraging our existing dev server and the WebRTC API — the same one that lets
-you share your desktop in video calls, like with Google Meet.
+The only remaining obstacle is not being able to see your dev machine's display
+inside the WebXR session. It turns out this is a pretty simple challenge to
+overcome, with about 200 lines of code leveraging our existing dev server and
+the WebRTC API — the same one that lets you share your desktop in video calls,
+like with Google Meet.
 
 This repository demonstrates a very simple setup, using Vite and React XR, to
-bring your display into the WebXR session, and enable truly fast iteration. The
-README (you're reading it now) will give an overview of the approach, and then
-direct you to a few key commented source files where the logic is implemented.
+bring your display into the WebXR session, and enable truly fast iteration.
 
 ### The Setup
 
-Hardware:
+I'm using a Meta Quest Pro, developing on a Macbook Pro, using React XR/React
+Three Fiber and Vite.
 
-- XR headset
-- Development machine
-
-I'm using a Quest Pro and a laptop. I can comfortably work inside the Quest Pro,
-but if you aren't comfortable working in an existing remote display app, like
-Meta's Remote Display or Horizon Workrooms, then this technique won't be any
-better from that perspective.
-
-Software:
-
-- Vite
-- React XR (including React Three Fiber)
-
-The techniques used here can be adapted to other toolchains, but this pairing is
-very easy to get going.
+The techniques used here can be adapted to other toolchains, as long as you can
+get a non-immersive WebGL hot module setup working.
 
 ![diagram](diagram.svg)
 
@@ -140,7 +125,7 @@ that Vite appends to the page when serving it in development mode.
 
 Normally you'd use this API for custom handling of HMR events, but in our case
 we're just taking advantage of the fact that it's the websocket connection that
-our Vite plugin takes advantages of; for this reason it's renamed `ws`.
+our Vite plugin uses; for this reason it's renamed `ws`.
 
 The second reference will be to the desktop video `MediaStream`. The mutable
 reference will be initialized only the first time the `connect` function is
