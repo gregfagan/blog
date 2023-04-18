@@ -253,7 +253,7 @@ texture.
 
 This API is used from a `RemoteDisplay` React component.
 
-https://github.com/gregfagan/blog/blob/86c9584162aa5533a512899bf5dd95cc6fe8e0e6/xr-remote-display/src/RemoteDisplay.tsx#L13-L23
+https://github.com/gregfagan/blog/blob/e495bda82efc915045feffd34b8ed8a7516947bb/xr-remote-display/src/RemoteDisplay.tsx#L13-L21
 
 After the module imports, the component is defined with a few props related to
 the cylinder geometry. The
@@ -262,13 +262,13 @@ is well defined, and it's pretty easy to map over to the ThreeJS
 `CylinderGeometry` that we'll use later. Tweak these values to find a
 comfortable size and location for the display.
 
-https://github.com/gregfagan/blog/blob/86c9584162aa5533a512899bf5dd95cc6fe8e0e6/xr-remote-display/src/RemoteDisplay.tsx#L24-L29
+https://github.com/gregfagan/blog/blob/e495bda82efc915045feffd34b8ed8a7516947bb/xr-remote-display/src/RemoteDisplay.tsx#L22-L27
 
 The initial block of hooks is dedicated to the construction of the layer.
 `createLayer` is defined after the component; it uses the video exported from
 `connectRemoteDisplay.ts` module to add the media layer to the WebXR session.
 
-https://github.com/gregfagan/blog/blob/86c9584162aa5533a512899bf5dd95cc6fe8e0e6/xr-remote-display/src/RemoteDisplay.tsx#L76-L85
+https://github.com/gregfagan/blog/blob/e495bda82efc915045feffd34b8ed8a7516947bb/xr-remote-display/src/RemoteDisplay.tsx#L74-L83
 
 To better understand this code, I recommend the
 [explainer](https://github.com/immersive-web/layers/blob/main/explainer.md) and
@@ -281,7 +281,7 @@ and the rest of our ReactXR app is drawn on top. This will be relevant later.
 Back to the component implementation, we handle another geometry problem, which
 is the video aspect ratio.
 
-https://github.com/gregfagan/blog/blob/86c9584162aa5533a512899bf5dd95cc6fe8e0e6/xr-remote-display/src/RemoteDisplay.tsx#L31-L34
+https://github.com/gregfagan/blog/blob/e495bda82efc915045feffd34b8ed8a7516947bb/xr-remote-display/src/RemoteDisplay.tsx#L29-L32
 
 While the aspect ratio can be computed directly from the video properties,
 loading the video from the WebRTC stream is an async process, so a custom hook
@@ -291,7 +291,7 @@ right one.
 Next, we'll take our cylinder geometry and transform props and forward them to
 them to the WebXR layer.
 
-https://github.com/gregfagan/blog/blob/86c9584162aa5533a512899bf5dd95cc6fe8e0e6/xr-remote-display/src/RemoteDisplay.tsx#L36-L41
+https://github.com/gregfagan/blog/blob/e495bda82efc915045feffd34b8ed8a7516947bb/xr-remote-display/src/RemoteDisplay.tsx#L34-L39
 
 Eventually you'll probably want to move and scale the display with controller
 events, but for now it's sufficient to tweak it by modifying the code and taking
@@ -317,7 +317,7 @@ that the compositor will fill in the video. In our demo scene, a white cube is
 hovering near the display, and it can be grabbed and moved with the controllers
 behind or in front to see this depth sorting in action.
 
-https://github.com/gregfagan/blog/blob/86c9584162aa5533a512899bf5dd95cc6fe8e0e6/xr-remote-display/src/RemoteDisplay.tsx#L43-L55
+https://github.com/gregfagan/blog/blob/e495bda82efc915045feffd34b8ed8a7516947bb/xr-remote-display/src/RemoteDisplay.tsx#L41-L53
 
 I mentioned before that if the layer is not available, we'll render with a
 `VideoTexture` as a fallback. This is what we'll see on the page before entering
@@ -328,4 +328,4 @@ coordinates to the inside of our cylinder.
 Finally, we take whichever material was appropriate, and render it with our
 ThreeJS mesh and cylinder geometry.
 
-https://github.com/gregfagan/blog/blob/86c9584162aa5533a512899bf5dd95cc6fe8e0e6/xr-remote-display/src/RemoteDisplay.tsx#L57-L74
+https://github.com/gregfagan/blog/blob/e495bda82efc915045feffd34b8ed8a7516947bb/xr-remote-display/src/RemoteDisplay.tsx#L55-L72
