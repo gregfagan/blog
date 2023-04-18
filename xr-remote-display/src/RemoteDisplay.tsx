@@ -10,12 +10,10 @@ import {
 } from "three";
 import { video } from "./connectRemoteDisplay";
 
-const defaultTransform = new XRRigidTransform({ y: 1.015 });
-
 export function RemoteDisplay({
   centralAngle = Math.PI / 2.4,
   radius = 1.2,
-  transform = defaultTransform,
+  transform = new XRRigidTransform({ y: 1.015 }),
 }: {
   centralAngle?: number;
   radius?: number;
