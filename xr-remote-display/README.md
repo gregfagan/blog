@@ -284,15 +284,48 @@ is the video aspect ratio.
 https://github.com/gregfagan/blog/blob/86c9584162aa5533a512899bf5dd95cc6fe8e0e6/xr-remote-display/src/RemoteDisplay.tsx#L31-L34
 
 While the aspect ratio can be computed directly from the video properties,
-loading the video from the WebRTC stream is an asynch process, so a custom hook
+loading the video from the WebRTC stream is an async process, so a custom hook
 watches for the metadata event, forcing a rerender to make sure we've got the
 right one.
 
+Next, we'll take our cylinder geometry and transform props and forward them to
+them to the WebXR layer.
+
 https://github.com/gregfagan/blog/blob/86c9584162aa5533a512899bf5dd95cc6fe8e0e6/xr-remote-display/src/RemoteDisplay.tsx#L36-L41
 
-This block of code handles changes to the geometry. Eventually you'll probably
-want to move and scale the display with controller events, but for now it's
-sufficient to tweak it by modifying the code and taking advantage of hot module
-replacement. This `useEffect` forwards those updates to the layer.
+Eventually you'll probably want to move and scale the display with controller
+events, but for now it's sufficient to tweak it by modifying the code and taking
+advantage of hot module replacement. Note that the scene graph isn't accounted
+for here, so you'll need to add some extra logic if you're going to render this
+display anywhere other than at the root.
 
-// TODO: material++
+If we've successfully created the WebXR layer, then it will handle compositing
+the video into the output image. The
+[specification defines an API for this composition to be depth-aware](https://www.w3.org/TR/webxrlayers-1/#depthsorting)
+so that it can properly occlude and be occluded by your scene, but it's marked
+as unstable and isn't implemented in the Meta Quest Browser.
+
+The ordering of layers we specified will mean our scene will render on top of
+the video. We could have reversed the order, with the video on top, but ideally
+we'd see the screen at the proper depth. Fortunately, it's pretty simple to
+handle this ourselves.
+
+The approach is to render our own cylinder geometry, but with a material which
+only writes to the depth buffer, and not color. We're effectively punching a
+hole in the output we'll be rendering with our scene, at the depth and location
+that the compositor will fill in the video. In our demo scene, a white cube is
+hovering near the display, and it can be grabbed and moved with the controllers
+behind or in front to see this depth sorting in action.
+
+https://github.com/gregfagan/blog/blob/86c9584162aa5533a512899bf5dd95cc6fe8e0e6/xr-remote-display/src/RemoteDisplay.tsx#L43-L55
+
+I mentioned before that if the layer is not available, we'll render with a
+`VideoTexture` as a fallback. This is what we'll see on the page before entering
+the XR session. Configuring that texture is handled here as the else branch of
+our ternery expression. It takes a couple of extra parameters to map the UV
+coordinates to the inside of our cylinder.
+
+Finally, we take whichever material was appropriate, and render it with our
+ThreeJS mesh and cylinder geometry.
+
+https://github.com/gregfagan/blog/blob/86c9584162aa5533a512899bf5dd95cc6fe8e0e6/xr-remote-display/src/RemoteDisplay.tsx#L57-L74
