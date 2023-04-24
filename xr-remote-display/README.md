@@ -8,11 +8,11 @@ quickly and without gatekeepers.
 
 One benefit of using web technologies is rapid iteration times. From the early
 days of "live reload" to modern state-preserving "hot module replacement," it's
-long been the norm to modify a web page or app while it's running and quickly
-see the results. These tools offer a solution to one of the pain points of XR
-development, where the iteration cycle is usually slowed by having to code
-outside of your immersive experience, often with the headset removed, requiring
-cumbersome donning and doffing for every tweak.
+long been the norm to modify a web page or app while it's running see the
+results more or less instantly. These tools offer a solution to one of the pain
+points of XR development, where the iteration cycle is usually slowed by having
+to code outside of your immersive experience, often with the headset removed,
+requiring cumbersome donning and doffing for every tweak.
 
 If you're iterating on non-interactive parts of the experience, like graphics or
 audio, then you can work against a flat projection of the scene, maybe using the
@@ -24,9 +24,9 @@ session, test the change, and exit back to your remote display app; with my
 Quest Pro and Meta's browser, this cycle still takes several seconds, jarringly
 blanking out the display during the transition.
 
-There is a faster way. React Three Fiber with a dev server like Vite already
-enables hot reload workflows for non-immersive WebGL projects, and React XR
-builds on top of it for easier use with the WebXR API.
+There is a faster way. React Three Fiber and a dev server like Vite already
+enable hot reload workflows for non-immersive WebGL projects, and React XR
+builds on top of it for easy use with the WebXR API.
 
 The only remaining obstacle is not being able to see your dev machine's display
 inside the WebXR session. It turns out this is a pretty simple challenge to
@@ -77,7 +77,7 @@ The key files implementing the remote display logic are:
 
 - `vite.config.ts`, where message passing is configured
 - `stream.html`, a single-file JavaScript app loaded by the dev machine
-- `connectToRemoteDisplay.ts`, logic on the immersive app side for connecting to
+- `connectRemoteDisplay.ts`, logic on the immersive app side for connecting to
   the WebRTC stream
 - `RemoteDisplay.tsx`, a React component rendering the display in the WebXR
   session
@@ -147,7 +147,8 @@ The connection is established by passing primarily two types of messages:
 The SDP messages communicate media information, like what streams and codecs
 will be used. The ICE messages allow the peers to negotiate the lowest latency
 connection over the network. In our case both peers should be on the same local
-network, and latency will mostly not be an issue. You can read more about
+network, and network latency will mostly not be an issue. You can read more
+about
 [WebRTC on MDN](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Signaling_and_video_calling).
 
 The first thing to do is create the `RTCPeerConnection` object and hook it up to
@@ -302,6 +303,8 @@ that the compositor will fill in the video. In our demo scene, a white cube is
 hovering near the display, and it can be grabbed and moved with the controllers
 behind or in front to see this depth sorting in action.
 
+<video src="depth.mp4" autoplay playsInline muted loop style="width:100%"></video>
+
 https://github.com/gregfagan/blog/blob/e495bda82efc915045feffd34b8ed8a7516947bb/xr-remote-display/src/RemoteDisplay.tsx#L41-L53
 
 I mentioned before that if the layer is not available, we'll render with a
@@ -314,3 +317,22 @@ Finally, we take whichever material was appropriate, and render it with our
 ThreeJS mesh and cylinder geometry.
 
 https://github.com/gregfagan/blog/blob/e495bda82efc915045feffd34b8ed8a7516947bb/xr-remote-display/src/RemoteDisplay.tsx#L55-L72
+
+### Closing Thoughts
+
+The visual clarity of the remote display when using the WebXR Layer is crystal
+clear, just as good as Meta's apps. Unfortunately, despite the low network
+latency, I get inconsistent delay related to the video encoding. You can specify
+the codec, but usually you'll get a default of VP8 which I've found is already
+the lowest latency option. The result is still usable, especially for targeted
+debugging or tweaking sessions, but there tends to be just enough delay to make
+it frustating for full time use.
+
+I'd be interested to hear from anyone with experience in video streaming or
+remote desktop software about what the browser might be doing that leads to a
+worse experience than is provided by desktop software like Meta Quest Remote
+Desktop, and if there's any other levers I could be pulling to improve things.
+
+Either way, this is a great tool to have in your toolbox of WebXR development.
+Simple and quick to get set up, giving you full access to all of your desktop
+based development tools while inside your XR session.
