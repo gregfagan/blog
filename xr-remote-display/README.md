@@ -1,6 +1,6 @@
 # Hot Reload the Metaverse
 
-![demo]('demo.gif')
+https://user-images.githubusercontent.com/360271/234576487-3cdfc976-9651-4f13-aeeb-33d76f8ca07b.mp4
 
 The web platform is a compelling choice for immersive XR development. The WebXR
 API is mature enough to build great experiences, and deliver them to users
@@ -303,7 +303,7 @@ that the compositor will fill in the video. In our demo scene, a white cube is
 hovering near the display, and it can be grabbed and moved with the controllers
 behind or in front to see this depth sorting in action.
 
-<video src="depth.mp4" autoplay playsInline muted loop style="width:100%"></video>
+https://user-images.githubusercontent.com/360271/234576746-4cb3de98-9d5d-4ab6-81f0-54aaddf9ffbe.mp4
 
 https://github.com/gregfagan/blog/blob/e495bda82efc915045feffd34b8ed8a7516947bb/xr-remote-display/src/RemoteDisplay.tsx#L41-L53
 
