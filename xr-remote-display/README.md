@@ -320,19 +320,25 @@ https://github.com/gregfagan/blog/blob/e495bda82efc915045feffd34b8ed8a7516947bb/
 
 ### Closing Thoughts
 
-The visual clarity of the remote display when using the WebXR Layer is crystal
-clear, just as good as Meta's apps. Unfortunately, despite the low network
-latency, I get inconsistent delay related to the video encoding. You can specify
-the codec, but usually you'll get a default of VP8 which I've found is already
-the lowest latency option. The result is still usable, especially for targeted
-debugging or tweaking sessions, but there tends to be just enough delay to make
-it frustating for full time use.
+The visual clarity of the remote display when using the WebXR Layer is just as
+good as Meta's apps. Unfortunately the latency is inconsistent. Sometimes it's
+completely unnoticable, but occasionally there's enough that it is still usable,
+especially for targeted debugging or tweaking sessions, but frustating for full
+time use.
+
+The delay appears to be caused by the video encoding process on the dev machine.
+With WebRTC, you can specify a codec to use, but I haven't found a configuration
+that's lower latency than the default VP8 that Chromium uses.
 
 I'd be interested to hear from anyone with experience in video streaming or
 remote desktop software about what the browser might be doing that leads to a
-worse experience than is provided by desktop software like Meta Quest Remote
-Desktop, and if there's any other levers I could be pulling to improve things.
+worse experience than is provided by software like Meta Quest Remote Desktop,
+and if there's any other levers I could be pulling to improve things.
 
 Either way, this is a great tool to have in your toolbox of WebXR development.
 Simple and quick to get set up, giving you full access to all of your desktop
 based development tools while inside your XR session.
+
+Find me on [GitHub](https://github.com/gregfagan) or message me on
+[Discord](https://discord.com/users/149346619651784704) and come hang out in the
+[WebXR server](https://discord.gg/webxr).
